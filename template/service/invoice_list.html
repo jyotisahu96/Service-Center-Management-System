@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Billing & Invoices</h2>
+            <p class="text-muted">
+                Manage customer invoices
+            </p>
+        </div>
+
+        <a href="{% url 'invoice_add' %}"
+           class="btn btn-primary">
+            + Create Invoice
+        </a>
+
+    </div>
+
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Invoice</th>
+                            <th>Customer</th>
+                            <th>Device</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for invoice in invoices %}
+
+                        <tr>
+
+                            <td>
+                                #{{ invoice.id }}
+                            </td>
+
+                            <td>
+                                {{ invoice.service_request.device.customer.name }}
+                            </td>
+
+                            <td>
+                                {{ invoice.service_request.device.device_name }}
+                            </td>
+
+                            <td>
+                                ₹{{ invoice.total_amount }}
+                            </td>
+
+                            <td>
+
+                                {% if invoice.status == 'Paid' %}
+
+                                    <span class="badge bg-success">
+                                        Paid
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Unpaid
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <a href="{% url 'invoice_detail' invoice.id %}"
+                                   class="btn btn-sm btn-info">
+                                    View
+                                </a>
+
+                                <a href="{% url 'invoice_edit' invoice.id %}"
+                                   class="btn btn-sm btn-warning">
+                                    Edit
+                                </a>
+
+                                <a href="{% url 'invoice_delete' invoice.id %}"
+                                   class="btn btn-sm btn-danger">
+                                    Delete
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="6"
+                                class="text-center text-muted">
+
+                                No invoices found.
+
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

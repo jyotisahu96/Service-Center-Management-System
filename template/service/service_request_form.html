@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    {% if service_request %}
+
+                        <h4>Edit Service Request</h4>
+
+                    {% else %}
+
+                        <h4>Create Service Request</h4>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <!-- DEVICE -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Device
+                            </label>
+
+                            <select
+                                name="device"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Device
+                                </option>
+
+
+                                {% for device in devices %}
+
+                                <option
+                                    value="{{ device.id }}"
+
+                                    {% if service_request and service_request.device.id == device.id %}
+                                        selected
+                                    {% endif %}
+                                >
+
+                                    {{ device.customer.name }}
+                                    -
+                                    {{ device.device_name }}
+                                    -
+                                    {{ device.brand }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- TECHNICIAN -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Assign Technician
+                            </label>
+
+                            <select
+                                name="technician"
+                                class="form-select"
+                            >
+
+                                <option value="">
+                                    Not Assigned
+                                </option>
+
+
+                                {% for technician in technicians %}
+
+                                <option
+                                    value="{{ technician.id }}"
+
+                                    {% if service_request and service_request.technician and service_request.technician.id == technician.id %}
+                                        selected
+                                    {% endif %}
+                                >
+
+                                    {{ technician.name }}
+                                    -
+                                    {{ technician.specialization }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- PROBLEM -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Problem
+                            </label>
+
+                            <textarea
+                                name="problem"
+                                class="form-control"
+                                rows="4"
+                                placeholder="Describe the problem"
+                                required
+                            >{{ service_request.problem }}</textarea>
+
+                        </div>
+
+
+                        <!-- PRIORITY -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Priority
+                            </label>
+
+                            <select
+                                name="priority"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="Low"
+                                    {% if service_request.priority == 'Low' %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Low
+                                </option>
+
+                                <option value="Medium"
+                                    {% if service_request.priority == 'Medium' or not service_request %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Medium
+                                </option>
+
+                                <option value="High"
+                                    {% if service_request.priority == 'High' %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    High
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Status
+                            </label>
+
+                            <select
+                                name="status"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="Received"
+                                    {% if service_request.status == 'Received' or not service_request %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Received
+                                </option>
+
+                                <option value="Inspection"
+                                    {% if service_request.status == 'Inspection' %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Inspection
+                                </option>
+
+                                <option value="Repairing"
+                                    {% if service_request.status == 'Repairing' %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Repairing
+                                </option>
+
+                                <option value="Ready"
+                                    {% if service_request.status == 'Ready' %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Ready
+                                </option>
+
+                                <option value="Delivered"
+                                    {% if service_request.status == 'Delivered' %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Delivered
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Save Request
+                        </button>
+
+
+                        <a
+                            href="{% url 'service_request_list' %}"
+                            class="btn btn-secondary"
+                        >
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

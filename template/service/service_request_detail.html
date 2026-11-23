@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>Service Request Details</h2>
+
+            <p class="text-muted">
+                Request #{{ service_request.id }}
+            </p>
+
+        </div>
+
+        <a
+            href="{% url 'service_request_list' %}"
+            class="btn btn-secondary"
+        >
+            ← Back
+        </a>
+
+    </div>
+
+
+    <div class="card shadow">
+
+        <div class="card-header">
+
+            <h4>
+                Service Request #{{ service_request.id }}
+            </h4>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <p>
+                <strong>Customer:</strong>
+                {{ service_request.device.customer.name }}
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                {{ service_request.device.customer.phone }}
+            </p>
+
+            <p>
+                <strong>Device:</strong>
+                {{ service_request.device.device_name }}
+            </p>
+
+            <p>
+                <strong>Brand:</strong>
+                {{ service_request.device.brand }}
+            </p>
+
+            <p>
+                <strong>Model:</strong>
+                {{ service_request.device.model_number }}
+            </p>
+
+            <p>
+                <strong>Serial Number:</strong>
+                {{ service_request.device.serial_number }}
+            </p>
+
+            <hr>
+
+            <p>
+                <strong>Technician:</strong>
+
+                {% if service_request.technician %}
+
+                    {{ service_request.technician.name }}
+
+                {% else %}
+
+                    Not Assigned
+
+                {% endif %}
+
+            </p>
+
+            <p>
+                <strong>Problem:</strong>
+                {{ service_request.problem }}
+            </p>
+
+            <p>
+                <strong>Priority:</strong>
+                {{ service_request.priority }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                {{ service_request.status }}
+            </p>
+
+            <p>
+                <strong>Created:</strong>
+                {{ service_request.created_at }}
+            </p>
+
+            <p>
+                <strong>Last Updated:</strong>
+                {{ service_request.updated_at }}
+            </p>
+
+
+            <hr>
+
+
+            <a
+                href="{% url 'service_request_edit' service_request.id %}"
+                class="btn btn-warning"
+            >
+                Edit Request
+            </a>
+
+
+            <a
+                href="{% url 'service_request_delete' service_request.id %}"
+                class="btn btn-danger"
+            >
+                Delete Request
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

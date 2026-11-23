@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>Technician Details</h2>
+
+            <p class="text-muted">
+                View technician information
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'technician_list' %}"
+            class="btn btn-secondary"
+        >
+            ← Back to Technicians
+        </a>
+
+    </div>
+
+
+    <div class="card shadow">
+
+        <div class="card-header">
+
+            <h4>
+                {{ technician.name }}
+            </h4>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <p>
+                <strong>Name:</strong>
+                {{ technician.name }}
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                {{ technician.phone }}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                {{ technician.email }}
+            </p>
+
+            <p>
+                <strong>Specialization:</strong>
+                {{ technician.specialization }}
+            </p>
+
+            <p>
+                <strong>Experience:</strong>
+                {{ technician.experience }} years
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+
+                {% if technician.status == 'Available' %}
+
+                    <span class="badge bg-success">
+                        Available
+                    </span>
+
+                {% elif technician.status == 'Busy' %}
+
+                    <span class="badge bg-warning text-dark">
+                        Busy
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-danger">
+                        On Leave
+                    </span>
+
+                {% endif %}
+
+            </p>
+
+            <p>
+                <strong>Joined On:</strong>
+                {{ technician.joined_at }}
+            </p>
+
+
+            <hr>
+
+
+            <a
+                href="{% url 'technician_edit' technician.id %}"
+                class="btn btn-warning"
+            >
+                Edit Technician
+            </a>
+
+
+            <a
+                href="{% url 'technician_delete' technician.id %}"
+                class="btn btn-danger"
+            >
+                Delete Technician
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

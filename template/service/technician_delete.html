@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-body text-center">
+
+                    <h3>
+                        Delete Technician
+                    </h3>
+
+
+                    <p class="mt-3">
+
+                        Are you sure you want to delete
+
+                        <strong>
+                            {{ technician.name }}
+                        </strong>?
+
+                    </p>
+
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger"
+                        >
+                            Yes, Delete
+                        </button>
+
+
+                        <a
+                            href="{% url 'technician_detail' technician.id %}"
+                            class="btn btn-secondary"
+                        >
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

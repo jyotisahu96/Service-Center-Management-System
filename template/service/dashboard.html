@@ -1,0 +1,396 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .dashboard-heading {
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    .dashboard-subtitle {
+        color: #718096;
+    }
+
+    .stat-card {
+        border: none;
+        border-radius: 14px;
+        background: #ffffff;
+        box-shadow: 0 4px 18px rgba(20, 40, 80, 0.07);
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(20, 40, 80, 0.12);
+    }
+
+    .stat-label {
+        color: #718096;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .stat-number {
+        color: #172b4d;
+        font-size: 30px;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 23px;
+    }
+
+    .icon-blue { background: #e8f0ff; }
+    .icon-green { background: #e2f8ed; }
+    .icon-orange { background: #fff0df; }
+    .icon-purple { background: #f0e8ff; }
+    .icon-red { background: #ffe7e7; }
+    .icon-teal { background: #ddf8f5; }
+
+    .section-card {
+        border: none;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(20, 40, 80, 0.07);
+    }
+
+    .section-title {
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    .action-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        height: 100%;
+        text-decoration: none;
+        color: #253858;
+        background: #ffffff;
+        border: 1px solid #e6ebf2;
+        border-radius: 12px;
+        transition: 0.2s;
+    }
+
+    .action-link:hover {
+        background: #f0f5ff;
+        border-color: #9bbcff;
+        color: #174477;
+        transform: translateY(-2px);
+    }
+
+    .action-icon {
+        font-size: 24px;
+    }
+
+    .dashboard-table thead th {
+        background: #f5f7fb;
+        color: #53627a;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        white-space: nowrap;
+    }
+
+    .dashboard-table td {
+        vertical-align: middle;
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+</style>
+
+<div class="container-fluid px-lg-4 py-3">
+
+    <!-- PAGE HEADER -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+
+        <div>
+            <h2 class="dashboard-heading mb-1">
+                Dashboard Overview
+            </h2>
+
+            <p class="dashboard-subtitle mb-0">
+                Welcome to ServiceHub. Manage your service center in one place.
+            </p>
+        </div>
+
+        <a href="{% url 'service_request_add' %}"
+           class="btn btn-primary px-4 py-2">
+            + New Service Request
+        </a>
+
+    </div>
+
+
+    <!-- STATISTICS CARDS -->
+    <div class="row g-4">
+
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label mb-2">Total Customers</div>
+                            <h3 class="stat-number">{{ total_customers }}</h3>
+                        </div>
+                        <div class="stat-icon icon-blue">👥</div>
+                    </div>
+                    <a href="{% url 'customer_list' %}"
+                       class="small text-decoration-none mt-3 d-inline-block">
+                        View customers →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label mb-2">Total Devices</div>
+                            <h3 class="stat-number">{{ total_devices }}</h3>
+                        </div>
+                        <div class="stat-icon icon-green">💻</div>
+                    </div>
+                    <a href="{% url 'device_list' %}"
+                       class="small text-decoration-none mt-3 d-inline-block">
+                        View devices →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label mb-2">Total Technicians</div>
+                            <h3 class="stat-number">{{ total_technicians }}</h3>
+                        </div>
+                        <div class="stat-icon icon-purple">🧑‍🔧</div>
+                    </div>
+                    <a href="{% url 'technician_list' %}"
+                       class="small text-decoration-none mt-3 d-inline-block">
+                        View technicians →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label mb-2">Service Requests</div>
+                            <h3 class="stat-number">{{ total_requests }}</h3>
+                        </div>
+                        <div class="stat-icon icon-orange">🛠️</div>
+                    </div>
+                    <a href="{% url 'service_request_list' %}"
+                       class="small text-decoration-none mt-3 d-inline-block">
+                        View requests →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label mb-2">Total Invoices</div>
+                            <h3 class="stat-number">{{ total_invoices }}</h3>
+                        </div>
+                        <div class="stat-icon icon-teal">🧾</div>
+                    </div>
+                    <a href="{% url 'invoice_list' %}"
+                       class="small text-decoration-none mt-3 d-inline-block">
+                        View invoices →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card stat-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label mb-2">Total Revenue</div>
+                            <h3 class="stat-number">₹{{ total_revenue|floatformat:2 }}</h3>
+                        </div>
+                        <div class="stat-icon icon-red">💰</div>
+                    </div>
+                    <a href="{% url 'payment_list' %}"
+                       class="small text-decoration-none mt-3 d-inline-block">
+                        View payments →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+    <div class="mt-5">
+
+        <h4 class="section-title mb-3">Quick Actions</h4>
+
+        <div class="row g-3">
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <a href="{% url 'customer_add' %}" class="action-link">
+                    <span class="action-icon">👤</span>
+                    <span>
+                        <strong class="d-block">Add Customer</strong>
+                        <small class="text-muted">Register a customer</small>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <a href="{% url 'device_add' %}" class="action-link">
+                    <span class="action-icon">💻</span>
+                    <span>
+                        <strong class="d-block">Add Device</strong>
+                        <small class="text-muted">Register a device</small>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <a href="{% url 'service_request_add' %}" class="action-link">
+                    <span class="action-icon">🔧</span>
+                    <span>
+                        <strong class="d-block">New Request</strong>
+                        <small class="text-muted">Create a service request</small>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <a href="{% url 'invoice_add' %}" class="action-link">
+                    <span class="action-icon">🧾</span>
+                    <span>
+                        <strong class="d-block">Create Invoice</strong>
+                        <small class="text-muted">Prepare customer billing</small>
+                    </span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECENT SERVICE REQUESTS -->
+    <div class="card section-card mt-5 mb-4">
+
+        <div class="card-body p-0">
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center p-4 gap-2">
+                <div>
+                    <h4 class="section-title mb-1">Recent Service Requests</h4>
+                    <p class="text-muted small mb-0">
+                        Latest service activity in your center
+                    </p>
+                </div>
+
+                <a href="{% url 'service_request_list' %}"
+                   class="btn btn-outline-primary btn-sm">
+                    View All Requests
+                </a>
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover dashboard-table mb-0">
+
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Request ID</th>
+                            <th>Customer</th>
+                            <th>Device</th>
+                            <th>Technician</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for request in recent_requests %}
+
+                        <tr>
+                            <td class="ps-4 fw-semibold">#{{ request.id }}</td>
+
+                            <td>
+                                {{ request.device.customer.name }}
+                            </td>
+
+                            <td>
+                                {{ request.device.device_name }}
+                            </td>
+
+                            <td>
+                                {% if request.technician %}
+                                    {{ request.technician.name }}
+                                {% else %}
+                                    <span class="text-muted">Not Assigned</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if request.status == 'Delivered' %}
+                                    <span class="badge bg-success">Delivered</span>
+                                {% elif request.status == 'Ready' %}
+                                    <span class="badge bg-primary">Ready</span>
+                                {% elif request.status == 'Repairing' %}
+                                    <span class="badge bg-warning text-dark">Repairing</span>
+                                {% elif request.status == 'Inspection' %}
+                                    <span class="badge bg-info text-dark">Inspection</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">
+                                        {{ request.status }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-5">
+                                No service requests found yet.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

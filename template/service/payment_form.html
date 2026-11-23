@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+                    <h4>Add Payment</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Invoice
+                            </label>
+
+                            <select
+                                name="invoice"
+                                class="form-select"
+                                required>
+
+                                <option value="">
+                                    Select Invoice
+                                </option>
+
+                                {% for invoice in invoices %}
+
+                                <option value="{{ invoice.id }}">
+
+                                    Invoice #{{ invoice.id }}
+                                    -
+                                    {{ invoice.service_request.device.customer.name }}
+                                    -
+                                    ₹{{ invoice.total_amount }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Payment Method
+                            </label>
+
+                            <select
+                                name="payment_method"
+                                class="form-select"
+                                required>
+
+                                <option value="">
+                                    Select Method
+                                </option>
+
+                                <option value="Cash">
+                                    Cash
+                                </option>
+
+                                <option value="UPI">
+                                    UPI
+                                </option>
+
+                                <option value="Card">
+                                    Card
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Transaction ID
+                            </label>
+
+                            <input
+                                type="text"
+                                name="transaction_id"
+                                class="form-control"
+                                placeholder="For UPI/Card">
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Amount
+                            </label>
+
+                            <input
+                                type="number"
+                                name="amount"
+                                class="form-control"
+                                step="0.01"
+                                required>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Status
+                            </label>
+
+                            <select
+                                name="status"
+                                class="form-select"
+                                required>
+
+                                <option value="Successful">
+                                    Successful
+                                </option>
+
+                                <option value="Pending">
+                                    Pending
+                                </option>
+
+                                <option value="Failed">
+                                    Failed
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            Save Payment
+
+                        </button>
+
+                        <a
+                            href="{% url 'payment_list' %}"
+                            class="btn btn-secondary">
+
+                            Cancel
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

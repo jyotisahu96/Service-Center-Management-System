@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    {% if technician %}
+
+                        <h4>Edit Technician</h4>
+
+                    {% else %}
+
+                        <h4>Add New Technician</h4>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Technician Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                class="form-control"
+                                value="{{ technician.name }}"
+                                placeholder="Enter technician name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Phone
+                            </label>
+
+                            <input
+                                type="text"
+                                name="phone"
+                                class="form-control"
+                                value="{{ technician.phone }}"
+                                placeholder="Enter phone number"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control"
+                                value="{{ technician.email }}"
+                                placeholder="Enter email"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Specialization
+                            </label>
+
+                            <input
+                                type="text"
+                                name="specialization"
+                                class="form-control"
+                                value="{{ technician.specialization }}"
+                                placeholder="Example: Laptop Repair"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Experience (Years)
+                            </label>
+
+                            <input
+                                type="number"
+                                name="experience"
+                                class="form-control"
+                                value="{{ technician.experience }}"
+                                min="0"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Status
+                            </label>
+
+                            <select
+                                name="status"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Status
+                                </option>
+
+                                <option
+                                    value="Available"
+                                    {% if technician.status == 'Available' %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Available
+                                </option>
+
+                                <option
+                                    value="Busy"
+                                    {% if technician.status == 'Busy' %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Busy
+                                </option>
+
+                                <option
+                                    value="On Leave"
+                                    {% if technician.status == 'On Leave' %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    On Leave
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Save Technician
+                        </button>
+
+
+                        <a
+                            href="{% url 'technician_list' %}"
+                            class="btn btn-secondary"
+                        >
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

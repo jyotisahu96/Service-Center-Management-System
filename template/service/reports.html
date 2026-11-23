@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2>Reports</h2>
+        <p class="text-muted">
+            ServiceHub business and service reports
+        </p>
+    </div>
+
+
+    <!-- Summary Cards -->
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Customers</h6>
+                    <h2>{{ total_customers }}</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Devices</h6>
+                    <h2>{{ total_devices }}</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Technicians</h6>
+                    <h2>{{ total_technicians }}</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Requests</h6>
+                    <h2>{{ total_requests }}</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Invoices</h6>
+                    <h2>{{ total_invoices }}</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Revenue</h6>
+                    <h2>₹{{ total_revenue }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Service Request Report -->
+
+    <div class="card shadow-sm mt-5">
+
+        <div class="card-body">
+
+            <h4 class="mb-4">
+                Service Request Status Report
+            </h4>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Total Requests</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Received</td>
+                            <td>{{ received }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Inspection</td>
+                            <td>{{ inspection }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Repairing</td>
+                            <td>{{ repairing }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Ready</td>
+                            <td>{{ ready }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Delivered</td>
+                            <td>{{ delivered }}</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

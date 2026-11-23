@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Add Device</h1>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <label>Customer:</label>
+    <br>
+
+    <select name="customer">
+
+        <option value="">
+            Select Customer
+        </option>
+
+        {% for customer in customers %}
+
+            <option value="{{ customer.id }}">
+                {{ customer.name }}
+            </option>
+
+        {% endfor %}
+
+    </select>
+
+    <br><br>
+
+
+    <label>Device Name:</label>
+    <br>
+
+    <input
+        type="text"
+        name="device_name"
+        placeholder="Example: Laptop"
+    >
+
+    <br><br>
+
+
+    <label>Brand:</label>
+    <br>
+
+    <input
+        type="text"
+        name="brand"
+        placeholder="Example: HP"
+    >
+
+    <br><br>
+
+
+    <label>Model Number:</label>
+    <br>
+
+    <input
+        type="text"
+        name="model_number"
+    >
+
+    <br><br>
+
+
+    <label>Serial Number:</label>
+    <br>
+
+    <input
+        type="text"
+        name="serial_number"
+    >
+
+    <br><br>
+
+
+    <label>Problem:</label>
+    <br>
+
+    <textarea
+        name="problem"
+        rows="4"
+    ></textarea>
+
+    <br><br>
+
+
+    <button type="submit">
+        Save Device
+    </button>
+
+</form>
+
+<br>
+
+<a href="{% url 'device_list' %}">
+    Back to Devices
+</a>
+
+{% endblock %}

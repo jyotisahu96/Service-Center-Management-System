@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Notifications</h2>
+
+            <p class="text-muted">
+                ServiceHub notifications
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            {% for notification in notifications %}
+
+            <div class="alert alert-info">
+
+                <h5>
+                    {{ notification.title }}
+                </h5>
+
+                <p class="mb-1">
+                    {{ notification.message }}
+                </p>
+
+                <small class="text-muted">
+                    {{ notification.created_at }}
+                </small>
+
+            </div>
+
+            {% empty %}
+
+            <p class="text-center text-muted">
+                No notifications available.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

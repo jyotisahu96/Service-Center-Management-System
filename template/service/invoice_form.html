@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    {% if invoice %}
+                        <h4>Edit Invoice</h4>
+                    {% else %}
+                        <h4>Create Invoice</h4>
+                    {% endif %}
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Service Request
+                            </label>
+
+                            <select
+                                name="service_request"
+                                class="form-select"
+                                required>
+
+                                <option value="">
+                                    Select Service Request
+                                </option>
+
+                                {% for service_request in service_requests %}
+
+                                <option
+                                    value="{{ service_request.id }}"
+
+                                    {% if invoice and invoice.service_request.id == service_request.id %}
+                                        selected
+                                    {% endif %}>
+
+                                    Request #{{ service_request.id }}
+                                    -
+                                    {{ service_request.device.customer.name }}
+                                    -
+                                    {{ service_request.device.device_name }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Labour Charge
+                            </label>
+
+                            <input
+                                type="number"
+                                name="labor_charge"
+                                class="form-control"
+                                step="0.01"
+                                value="{{ invoice.labor_charge|default:'0' }}">
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Parts Charge
+                            </label>
+
+                            <input
+                                type="number"
+                                name="parts_charge"
+                                class="form-control"
+                                step="0.01"
+                                value="{{ invoice.parts_charge|default:'0' }}">
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Other Charge
+                            </label>
+
+                            <input
+                                type="number"
+                                name="other_charge"
+                                class="form-control"
+                                step="0.01"
+                                value="{{ invoice.other_charge|default:'0' }}">
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Discount
+                            </label>
+
+                            <input
+                                type="number"
+                                name="discount"
+                                class="form-control"
+                                step="0.01"
+                                value="{{ invoice.discount|default:'0' }}">
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Tax
+                            </label>
+
+                            <input
+                                type="number"
+                                name="tax"
+                                class="form-control"
+                                step="0.01"
+                                value="{{ invoice.tax|default:'0' }}">
+
+                        </div>
+
+
+                        {% if invoice %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Payment Status
+                            </label>
+
+                            <select
+                                name="status"
+                                class="form-select">
+
+                                <option value="Unpaid"
+                                    {% if invoice.status == 'Unpaid' %}
+                                        selected
+                                    {% endif %}>
+                                    Unpaid
+                                </option>
+
+                                <option value="Paid"
+                                    {% if invoice.status == 'Paid' %}
+                                        selected
+                                    {% endif %}>
+                                    Paid
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        {% else %}
+
+                            <input
+                                type="hidden"
+                                name="status"
+                                value="Unpaid">
+
+                        {% endif %}
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            Save Invoice
+
+                        </button>
+
+
+                        <a
+                            href="{% url 'invoice_list' %}"
+                            class="btn btn-secondary">
+
+                            Cancel
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

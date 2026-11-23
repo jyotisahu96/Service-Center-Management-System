@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Payment Details</h2>
+            <p class="text-muted">
+                Payment #{{ payment.id }}
+            </p>
+        </div>
+
+        <a href="{% url 'payment_list' %}"
+           class="btn btn-secondary">
+            ← Back
+        </a>
+
+    </div>
+
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h4>Payment #{{ payment.id }}</h4>
+        </div>
+
+        <div class="card-body">
+
+            <h5>Customer Information</h5>
+
+            <p>
+                <strong>Name:</strong>
+                {{ payment.invoice.service_request.device.customer.name }}
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                {{ payment.invoice.service_request.device.customer.phone }}
+            </p>
+
+            <hr>
+
+
+            <h5>Invoice Information</h5>
+
+            <p>
+                <strong>Invoice:</strong>
+                #{{ payment.invoice.id }}
+            </p>
+
+            <p>
+                <strong>Total Invoice:</strong>
+                ₹{{ payment.invoice.total_amount }}
+            </p>
+
+            <hr>
+
+
+            <h5>Payment Information</h5>
+
+            <p>
+                <strong>Amount Paid:</strong>
+                ₹{{ payment.amount }}
+            </p>
+
+            <p>
+                <strong>Payment Method:</strong>
+                {{ payment.payment_method }}
+            </p>
+
+            <p>
+                <strong>Transaction ID:</strong>
+
+                {% if payment.transaction_id %}
+                    {{ payment.transaction_id }}
+                {% else %}
+                    Not Available
+                {% endif %}
+
+            </p>
+
+            <p>
+                <strong>Payment Date:</strong>
+                {{ payment.payment_date }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+
+                {% if payment.status == 'Successful' %}
+
+                    <span class="badge bg-success">
+                        Successful
+                    </span>
+
+                {% elif payment.status == 'Pending' %}
+
+                    <span class="badge bg-warning text-dark">
+                        Pending
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-danger">
+                        Failed
+                    </span>
+
+                {% endif %}
+
+            </p>
+
+            <hr>
+
+            <a href="{% url 'payment_delete' payment.id %}"
+               class="btn btn-danger">
+                Delete Payment
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

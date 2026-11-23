@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Customer Management</h2>
+
+            <p class="text-muted">
+                Manage all your customers
+            </p>
+        </div>
+
+        <a href="{% url 'customer_add' %}" class="btn btn-primary">
+            + Add Customer
+        </a>
+
+    </div>
+
+
+    <!-- Search -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="input-group">
+
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search customer by name..."
+                        value="{{ search }}"
+                    >
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Search
+                    </button>
+
+                    <a
+                        href="{% url 'customer_list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Clear
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- Customer Table -->
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Name</th>
+
+                            <th>Phone</th>
+
+                            <th>Email</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for customer in customers %}
+
+                        <tr>
+
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+
+                            <td>
+                                {{ customer.name }}
+                            </td>
+
+                            <td>
+                                {{ customer.phone }}
+                            </td>
+
+                            <td>
+                                {{ customer.email }}
+                            </td>
+
+                            <td>
+
+                                <a
+                                    href="{% url 'customer_detail' customer.id %}"
+                                    class="btn btn-sm btn-info"
+                                >
+                                    View
+                                </a>
+
+                                <a
+                                    href="{% url 'customer_edit' customer.id %}"
+                                    class="btn btn-sm btn-warning"
+                                >
+                                    Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'customer_delete' customer.id %}"
+                                    class="btn btn-sm btn-danger"
+                                >
+                                    Delete
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="text-center text-muted"
+                            >
+                                No customers found.
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- PAGINATION START -->
+
+            {% if customers.has_other_pages %}
+
+            <nav aria-label="Customer pagination">
+
+                <ul class="pagination justify-content-center mt-4">
+
+                    <!-- Previous -->
+
+                    {% if customers.has_previous %}
+
+                    <li class="page-item">
+
+                        <a
+                            class="page-link"
+                            href="?page={{ customers.previous_page_number }}{% if search %}&search={{ search }}{% endif %}"
+                        >
+                            Previous
+                        </a>
+
+                    </li>
+
+                    {% else %}
+
+                    <li class="page-item disabled">
+
+                        <span class="page-link">
+                            Previous
+                        </span>
+
+                    </li>
+
+                    {% endif %}
+
+
+                    <!-- Page Numbers -->
+
+                    {% for num in customers.paginator.page_range %}
+
+                        {% if customers.number == num %}
+
+                        <li class="page-item active">
+
+                            <span class="page-link">
+                                {{ num }}
+                            </span>
+
+                        </li>
+
+                        {% else %}
+
+                        <li class="page-item">
+
+                            <a
+                                class="page-link"
+                                href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}"
+                            >
+                                {{ num }}
+                            </a>
+
+                        </li>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                    <!-- Next -->
+
+                    {% if customers.has_next %}
+
+                    <li class="page-item">
+
+                        <a
+                            class="page-link"
+                            href="?page={{ customers.next_page_number }}{% if search %}&search={{ search }}{% endif %}"
+                        >
+                            Next
+                        </a>
+
+                    </li>
+
+                    {% else %}
+
+                    <li class="page-item disabled">
+
+                        <span class="page-link">
+                            Next
+                        </span>
+
+                    </li>
+
+                    {% endif %}
+
+                </ul>
+
+            </nav>
+
+            {% endif %}
+
+            <!-- PAGINATION END -->
+
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
